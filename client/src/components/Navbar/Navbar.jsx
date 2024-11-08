@@ -7,12 +7,11 @@ const Navbar = () => {
   const navigate = useNavigate();
   const userName = localStorage.getItem('userName');
 
-  const handleLogoutClick = () => {
-    localStorage.removeItem('userName'); // Remove the username from localStorage
-
+  const handleLogoutClick = () => { 
     axios.post("http://localhost:3001/logout", {}, { withCredentials: true })
       .then(response => {
         console.log(response.data); // "Logout successful"
+        localStorage.removeItem('userName'); // Removing the username from localStorage
         alert("Logout successful")
         navigate('/'); // Redirect to login page after successful logout
       })

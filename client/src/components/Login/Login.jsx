@@ -81,7 +81,7 @@ const Login = ({ onLogin }) => {
         <div className="form-group">
           <input
             type="text"
-            placeholder="User Name"
+            placeholder="Enter Name"
             value={userName}
             onChange={(e) => setUserName(e.target.value)}
             aria-label="Username"
@@ -93,7 +93,7 @@ const Login = ({ onLogin }) => {
         <div className="form-group">
           <input
             type="email"
-            placeholder="Email"
+            placeholder="Enter Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             aria-label="Email"
@@ -105,7 +105,7 @@ const Login = ({ onLogin }) => {
         <div className="form-group">
           <input
             type="password"
-            placeholder="Password"
+            placeholder="Enter Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             aria-label="Password"
