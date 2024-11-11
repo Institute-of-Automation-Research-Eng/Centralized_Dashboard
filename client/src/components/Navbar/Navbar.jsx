@@ -18,12 +18,15 @@ const Navbar = () => {
       .catch(error => console.error("Logout error:", error));
   };
 
+  const allowedPaths = ['/home']; // List of paths where the list view should be visible
+
   return (
     <nav className="navbar">
       <div className="navbar-content">
-        <span className="navbar-title">Centralized Dashboard</span>
+      <Link  className="navbar-title" to="/">Centralized Dashboard</Link>
+
         <ul className="navbar-links">
-          {location.pathname !== '/' && location.pathname !== '/signup' && (
+          {allowedPaths.includes(location.pathname) && (
             <li>
               <i className="fas fa-user profile-icon"></i>
               {userName && <span className="user-name">{userName}</span>} {/* Show user name */}

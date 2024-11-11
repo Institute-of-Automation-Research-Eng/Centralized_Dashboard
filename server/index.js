@@ -6,15 +6,34 @@ const dotenv = require("dotenv");
 const session = require("express-session");
 const MongoStore = require("connect-mongo");
 const UserModel = require("./model/User");
+const nodemailer = require('nodemailer');
+const crypto = require('crypto');
 
 dotenv.config(); // Load environment variables from .env file
 
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: process.env.EMAIL,
+    pass: process.env.EMAIL_PASSWORD,   
+
+  },
+});
+
+const Otp = mongoose.model('Otp', new mongoose.Schema({
+    email: { type: String, required: true },
+    otp: { type: String, required: true },
+    expiresAt: { type: Date, required: true },
+  }));
+
 const app = express();
 app.use(express.json());
+
 app.use(cors({
-    origin: 'http://localhost:5174', // Adjust the frontend URL as needed
+    origin: 'http://localhost:5174', // Replace with your frontend's URL
+    methods: 'GET,POST,PUT,DELETE',
     credentials: true
-}));
+  }));
 
 // MongoDB connection
 mongoose.connect(process.env.MONGO_URI)
@@ -90,6 +109,67 @@ app.get('/user', (req, res) => {
         res.status(401).json("Not authenticated");
     }
 });
+
+app.post('/request-otp', async (req, res) => {
+    const { email } = req.body;
+  
+    // Check if user exists in the database
+    const user = await UserModel.findOne({ email });
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+  
+    // Generate OTP (6-digit random number)
+    const otp = crypto.randomInt(100000, 999999).toString();
+    const expiresAt = new Date(Date.now() + 15 * 60 * 1000); // OTP expires in 15 minutes
+  
+    // Store OTP in the database
+    const otpRecord = new Otp({ email, otp, expiresAt });
+    await otpRecord.save();
+  
+    // Send OTP to the user's email
+    const mailOptions = {
+        from: process.env.EMAIL,
+        to: email, // recipient's email address
+        subject: 'Centralized Dashboard: OTP for password reset',
+        text: `Your OTP for password resetting is: ${otp}`, // OTP message format
+    };
+  
+    try {
+      await transporter.sendMail(mailOptions);
+      console.log(mailOptions);
+      
+      return res.status(200).json({ message: 'OTP sent to your email' });
+    } catch (error) {
+      console.error('Error sending OTP:', error);
+      return res.status(500).json({ message: 'Failed to send OTP email' });
+    }
+  });
+
+  app.post('/reset-password', async (req, res) => {
+    const { email, otp, newPassword } = req.body;
+  
+    // Find the OTP record in the database
+    const otpRecord = await Otp.findOne({ email, otp });
+  
+    if (!otpRecord) {
+      return res.status(400).json({ message: 'Invalid OTP' });
+    }
+  
+    // Check if the OTP has expired
+    if (otpRecord.expiresAt < Date.now()) {
+      return res.status(400).json({ message: 'OTP has expired' });
+    }
+  
+    // Proceed with password reset logic
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    await UserModel.findOneAndUpdate({ email }, { password: hashedPassword });
+  
+    // Delete OTP record after successful password reset
+    await Otp.deleteOne({ email, otp });
+  
+    return res.status(200).json({ message: 'Password reset successfully' });
+  });
 
 // Starting the server
 app.listen(process.env.PORT || 3001, () => {

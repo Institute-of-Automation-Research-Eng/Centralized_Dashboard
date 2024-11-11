@@ -19,6 +19,8 @@
 
 .navbar-title {
     font-size: 30px;
+    color: white;
+    text-decoration: none;
 }
 
 .navbar-links {

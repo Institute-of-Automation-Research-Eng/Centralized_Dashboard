@@ -32,11 +32,11 @@ const Login = ({ onLogin }) => {
         .then(result => {
           console.log(result);
           if (result.data === "Success") {
-            localStorage.setItem('userName', userName);
             axios.get('http://localhost:3001/user', { withCredentials: true })
               .then(response => {
                 if (response.data.user) {
-                  navigate("/home", { state: { user: response.data.user } });
+                  localStorage.setItem('userName', userName);
+                  navigate("/home");
                 }
               });
           } else {
@@ -118,6 +118,18 @@ const Login = ({ onLogin }) => {
         </button>
         {errors.general && <p className="general-error">{errors.general}</p>}
         
+        {/* Forgot Password Link */}
+        <p className="forgot-password">
+          <a 
+            href="#"
+            onClick={() => {
+              navigate('/forgot-password');
+            }}
+          >
+            Forgot Password?
+          </a>
+        </p>
+
         {/* Signup Link */}
         <p className="signup-link">
           Don't have an account? <span onClick={navigateToSignup}>Sign up</span>

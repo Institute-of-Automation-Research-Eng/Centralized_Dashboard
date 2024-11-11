@@ -5,20 +5,27 @@ import Navbar from './components/Navbar/Navbar';
 import Login from './components/Login/Login';
 import Home from './components/Home/Home';
 import Signup from './components/Signup/Signup';
+import ForgotPassword from './components/Password/ForgotPassword';
 
 import './App.css';
 
 const App = () => {
+  // const isAuthenticated = !!localStorage.getItem('userName');
 
   return (
     <Router>
       <div>
         <Navbar />
         <Routes>
-          <Route path="*" element={<Navigate to="/home" />} />
-          <Route path="/" element={<Login/>} />
-          <Route path="/home" element={<Home />} />
+          <Route path="/" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+
+          {/* Protect /home route */}
+          <Route path="/home" element={<Home />} />
+
+          {/* Redirect any unknown paths to login */}
+          <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </div>
     </Router>
