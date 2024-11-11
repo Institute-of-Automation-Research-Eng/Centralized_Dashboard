@@ -20,6 +20,7 @@ Run the following command to start the back end development server.
 This will serve the back end application on a local server.
 
 cd server
+
 npm run start
 
 **Step 4: Start the Front End Development Server**
@@ -28,4 +29,5 @@ Run the following command to start the front end development server.
 This will serve the front end application on a local server.
 
 cd client
+
 npm run dev
