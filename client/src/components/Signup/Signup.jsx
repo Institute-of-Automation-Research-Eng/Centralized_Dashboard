@@ -8,6 +8,7 @@ const Signup = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState({ userName: '', email: '', password: '', confirmPassword: '', general: '' });
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -82,7 +83,7 @@ const Signup = () => {
         {/* Password Input */}
         <div className="form-group">
           <input
-            type="password"
+            type={showPassword ? "text" : "password"}
             placeholder="Enter Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
@@ -94,13 +95,24 @@ const Signup = () => {
         {/* Confirm Password Input */}
         <div className="form-group">
           <input
-            type="password"
+            type={showPassword ? "text" : "password"}
             placeholder="Confirm Password"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             aria-label="Confirm Password"
           />
           {errors.confirmPassword && <span className="error">{errors.confirmPassword}</span>}
+        </div>
+
+         {/* Show Password Checkbox */}
+         <div className="show-password">
+          <input
+            type="checkbox"
+            id="showPassword"
+            checked={showPassword}
+            onChange={() => setShowPassword((showPassword) => !showPassword)}
+          />
+          <label htmlFor="showPassword">Show Password</label>
         </div>
         
         <button type="submit" disabled={loading}>

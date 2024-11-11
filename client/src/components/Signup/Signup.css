@@ -83,3 +83,16 @@ button:hover {
 .login-link span:hover {
     color: #45a049;
 }
+
+.show-password {
+    display: flex;
+    align-items: center;
+    margin-left: 20px;
+    font-size: 14px;
+    color: #333;
+    margin-bottom: 15px;
+  }
+
+  .show-password input {
+    margin-right: 8px;
+  }
