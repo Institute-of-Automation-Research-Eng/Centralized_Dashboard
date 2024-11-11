@@ -61,9 +61,9 @@ const Login = ({ onLogin }) => {
             alert("Network error or server unreachable.");
           }
           alert(err)
+        }).finally(() => {
+          setLoading(false); // Set loading to false after the API call is complete
         });
-    
-      setLoading(false);
     }    
   };
 

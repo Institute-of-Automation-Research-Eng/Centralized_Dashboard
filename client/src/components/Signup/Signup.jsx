@@ -41,9 +41,9 @@ const Signup = () => {
           } else {
             alert(err);
           }
+        }).finally(() => {
+          setLoading(false); // Set loading to false after the API call is complete
         });
-
-      setLoading(false);
     }
   };
 
