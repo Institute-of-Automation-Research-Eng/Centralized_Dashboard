@@ -2,11 +2,11 @@ import './Tabs.css';
 
 const Tabs = ({ activeTab, setActiveTab }) => {
   const tabs = [
-    { id: 'module1', label: 'Module 01' },
-    { id: 'module2', label: 'Module 02' },
-    { id: 'module3', label: 'Module 03' },
-    { id: 'module4', label: 'Module 04' },
-    { id: 'module5', label: 'Module 05' },
+    { id: 'AssetManagement', label: 'Asset Management' },
+    { id: 'ThreatIntelligence', label: 'Threat Intelligence' },
+    { id: 'VulnerabilityRiskAssessment', label: 'Vulnerability Risk Assessment' },
+    { id: 'IncidentResponse', label: 'Incident Response' },
+    { id: 'CrisisManagement', label: 'Crisis Management' },
   ];
 
   return (
