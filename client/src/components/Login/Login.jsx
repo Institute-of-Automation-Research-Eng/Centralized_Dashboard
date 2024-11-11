@@ -30,7 +30,6 @@ const Login = ({ onLogin }) => {
       setLoading(true);
       axios.post("http://localhost:3001/login", { email, password }, { withCredentials: true })
         .then(result => {
-          console.log(result);
           if (result.data === "Success") {
             axios.get('http://localhost:3001/user', { withCredentials: true })
               .then(response => {
@@ -60,8 +59,7 @@ const Login = ({ onLogin }) => {
           } else {
             alert("Network error or server unreachable.");
           }
-    
-          console.error("Login error:", err);
+          alert(err)
         });
     
       setLoading(false);

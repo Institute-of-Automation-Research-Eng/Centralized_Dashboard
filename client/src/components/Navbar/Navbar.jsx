@@ -9,13 +9,12 @@ const Navbar = () => {
 
   const handleLogoutClick = () => { 
     axios.post("http://localhost:3001/logout", {}, { withCredentials: true })
-      .then(response => {
-        console.log(response.data); // "Logout successful"
+      .then(() => {
         localStorage.removeItem('userName'); // Removing the username from localStorage
         alert("Logout successful")
         navigate('/'); // Redirect to login page after successful logout
       })
-      .catch(error => console.error("Logout error:", error));
+      .catch(error => alert(error));
   };
 
   const allowedPaths = ['/home']; // List of paths where the list view should be visible

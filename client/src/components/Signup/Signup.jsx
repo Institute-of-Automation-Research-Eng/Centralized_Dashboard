@@ -38,7 +38,7 @@ const Signup = () => {
           if (err.response && err.response.status === 400) {
             setErrors((prev) => ({ ...prev, general: 'Email already exists. Use a different email.' }));
           } else {
-            console.log(err);
+            alert(err);
           }
         });
 
