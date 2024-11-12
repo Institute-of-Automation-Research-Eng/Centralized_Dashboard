@@ -1,0 +1,54 @@
+.asset-management {
+    padding: 20px;
+    position: relative;
+}
+
+.asset-header {
+    display: flex;
+    justify-content: flex-end;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+.add-asset-button {
+    width: auto;
+    padding: 10px 20px;
+    font-size: 1.2rem;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+.add-asset-button:hover {
+    background-color: #45a049;
+}
+
+.asset-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.asset-table th, .asset-table td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: left;
+}
+
+.asset-table th {
+    background-color: #4CAF50;
+    color: white;
+    font-weight: bold;
+}
+
+.asset-row {
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.asset-row:hover {
+    background-color: #f1f1f1;
+}

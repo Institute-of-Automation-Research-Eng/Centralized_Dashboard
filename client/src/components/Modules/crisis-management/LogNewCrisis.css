@@ -1,0 +1,26 @@
+.popup form input {
+    width: 70%;
+    margin-left: 30px;
+    padding: 10px;
+    margin: 8px 0;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  
+  .crisis-report-textarea {
+    width: 75%;
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    resize: vertical; /* Allow resizing only vertically */
+    min-height: 150px; /* Set a minimum height */
+    margin-top: 10px; /* Add some space above */
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+  }
+  
+  .crisis-report-textarea:focus {
+    border-color: #4CAF50; /* Highlight the border when focused */
+    outline: none; /* Remove the default focus outline */
+  }
