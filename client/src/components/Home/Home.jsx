@@ -1,11 +1,11 @@
 import { useState } from 'react';
 
 import Tabs from '../Tabs/Tabs';
-import AssetManagement from '../Modules/AssetManagement';
-import ThreatIntelligence from '../Modules/ThreatIntelligence';
-import VulnerabilityRiskAssessment from '../Modules/VulnerabilityRiskAssessment';
-import IncidentResponse from '../Modules/IncidentResponse';
-import CrisisManagement from '../Modules/CrisisManagement';
+import AssetManagement from '../Modules/asset-management/AssetManagement';
+import ThreatIntelligence from '../Modules/threat-intelligence/ThreatIntelligence';
+import VulnerabilityRiskAssessment from '../Modules/vulnerability-risk-assessment/VulnerabilityRiskAssessment';
+import IncidentResponse from '../Modules/incident-response/IncidentResponse';
+import CrisisManagement from '../Modules/crisis-management/CrisisManagement';
 
 import './Home.css';
 

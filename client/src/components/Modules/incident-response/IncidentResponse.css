@@ -1,0 +1,147 @@
+.incident-response {
+    padding: 20px;
+    position: relative;
+  }
+  
+  .incident-header {
+    display: flex;
+    justify-content: flex-end;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .add-incident-button {
+    width: auto;
+    padding: 10px 20px;
+    font-size: 1.2rem;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+  }
+  
+  .add-incident-button:hover {
+    background-color: #45a049;
+  }
+  
+  .incident-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  .incident-table th, .incident-table td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: left;
+  }
+  
+  .incident-table th {
+    background-color: #4CAF50;
+    color: white;
+    font-weight: bold;
+  }
+  
+  .incident-row {
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .incident-row:hover {
+    background-color: #f1f1f1;
+  }
+  
+  /* Overlay to darken background when popup is open */
+  .popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+  }
+  
+  /* Popup container */
+  .popup {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    width: 300px;
+    max-width: 90%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    animation: fadeIn 0.3s ease-in-out;
+  }
+  
+  /* Title */
+  .popup h3 {
+    margin-top: 0;
+    font-size: 1.5rem;
+    color: #333;
+  }
+  
+  /* Incident details styling */
+  .incident-details p {
+    font-size: 1rem;
+    color: #555;
+    margin: 8px 0;
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .popup form input {
+    width: 70%;
+    margin-left: 30px;
+    padding: 10px;
+    margin: 8px 0;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  
+  .popup button {
+    margin-top: 10px;
+    width: auto;
+    padding: 10px 20px;
+    margin-left: 10px;
+    font-size: 1.2rem;
+    background-color: #ff0000;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+  }
+  
+  .popup button:hover {
+    background-color: #b14b4b;
+  } 
+
+  .playbook-textarea {
+    width: 75%;
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    resize: vertical; /* Allow resizing only vertically */
+    min-height: 150px; /* Set a minimum height */
+    margin-top: 10px; /* Add some space above */
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+  }
+  
+  .playbook-textarea :focus {
+    border-color: #4CAF50; /* Highlight the border when focused */
+    outline: none; /* Remove the default focus outline */
+  }
+ 
+  /* Animation for the popup */
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
