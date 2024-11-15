@@ -36,7 +36,8 @@ const Login = ({ onLogin }) => {
             axios.get('http://localhost:3001/user', { withCredentials: true })
               .then(response => {
                 if (response.data) {
-                  localStorage.setItem('userType', response.data.userType); // Save userType to localStorage
+                  localStorage.setItem('userType', response.data.userType);
+                  localStorage.setItem('userEmail', response.data.email);
                   navigate("/home");
                 }
               });

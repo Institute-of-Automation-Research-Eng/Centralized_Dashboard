@@ -52,6 +52,7 @@
 }
 
 .profile-icon {
+    cursor: pointer;
     margin-right: 10px;
     font-size: 25px;
 }
