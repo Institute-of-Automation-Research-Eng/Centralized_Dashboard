@@ -115,7 +115,7 @@ const Login = ({ onLogin }) => {
         </div>
 
          {/* Show Password Checkbox */}
-         <div className="show-password">
+         <div className="login-show-password">
           <input
             type="checkbox"
             id="showPassword"
@@ -144,7 +144,7 @@ const Login = ({ onLogin }) => {
 
         {/* Signup Link */}
         <p className="signup-link">
-          Don't have an account? <span onClick={navigateToSignup}>Sign up</span>
+          Don't have an account? <span onClick={navigateToSignup}> Register </span>
         </p>
       </form>
     </div>

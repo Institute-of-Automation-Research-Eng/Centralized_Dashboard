@@ -58,6 +58,19 @@ const Signup = () => {
       <form className="signup-form" onSubmit={handleSignup}>
         <h1>SIGN UP</h1>
 
+         {/* User Type Select */}
+         <div className="form-group">
+          <select
+            value={userType}
+            onChange={(e) => setUserType(e.target.value)}
+            aria-label="User Type"
+          >
+            <option value="" disabled>Select role type</option> {/* Default option */}
+            <option value="user">User</option>
+            <option value="admin">Admin</option>
+          </select>
+        </div>
+
         {/* User Name Input */}
         <div className="form-group">
           <input
@@ -106,21 +119,8 @@ const Signup = () => {
           {errors.confirmPassword && <span className="error">{errors.confirmPassword}</span>}
         </div>
 
-        {/* User Type Select */}
-        <div className="form-group">
-          <select
-            value={userType}
-            onChange={(e) => setUserType(e.target.value)}
-            aria-label="User Type"
-          >
-            <option value="" disabled>Select role type</option> {/* Default option */}
-            <option value="user">User</option>
-            <option value="admin">Admin</option>
-          </select>
-        </div>
-
         {/* Show Password Checkbox */}
-        <div className="show-password">
+        <div className="signup-show-password">
           <input
             type="checkbox"
             id="showPassword"
@@ -137,7 +137,7 @@ const Signup = () => {
 
          {/* Login Link */}
          <p className="login-link">
-          Have an account? <span onClick={navigateToLogin}>Sign In</span>
+          Have an account? <span onClick={navigateToLogin}>Login</span>
         </p>
       </form>
     </div>

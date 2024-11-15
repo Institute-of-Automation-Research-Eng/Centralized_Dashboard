@@ -24,7 +24,7 @@ const Profile = ({
   return (
     <Popup>
       <>
-        <h3>User Profile</h3>
+        <h3>Profile</h3>
         <div className="profile-details">
           <p><strong>Name: </strong> {userDetails.userName}</p>
           <p><strong>Email: </strong> {userDetails.email}</p>

@@ -105,15 +105,19 @@ button:hover {
     text-decoration: underline;
   }
 
-  .show-password {
+/* Show Password Checkbox */
+.login-show-password {
     display: flex;
-    align-items: center;
-    margin-left: 20px;
-    font-size: 14px;
+    align-items: center; 
+    margin-left: 10px;
+    font-size: 16px;
     color: #333;
-    margin-bottom: 15px;
-  }
+    margin-bottom: 20px;
+}
 
-  .show-password input {
+.login-show-password input[type="checkbox"] {
+    width: 13px;
     margin-right: 8px;
-  }
+    margin-left: 15px;
+    cursor: pointer;
+}
