@@ -28,9 +28,9 @@ const Navbar = () => {
         <ul className="navbar-links">
           {allowedPaths.includes(location.pathname) && (
             <li>
-              {userType === "admin" && <span className="user-type">Admin</span>}
               <i className="fas fa-user profile-icon"></i>
               {userName && <span className="user-name">{userName}</span>} {/* Show user name */}
+              {userType === "admin" && <span className="user-type">( Admin )</span>}
               <Link to="/" onClick={handleLogoutClick}>Logout</Link>
             </li>
           )}
