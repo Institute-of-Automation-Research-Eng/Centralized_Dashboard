@@ -37,6 +37,12 @@
     padding: 12px;
     text-align: left;
   }
+
+  .threat-table th {
+    background-color: #4CAF50;
+    color: white;
+    font-weight: bold;
+}
   
   .threat-row {
     cursor: pointer;

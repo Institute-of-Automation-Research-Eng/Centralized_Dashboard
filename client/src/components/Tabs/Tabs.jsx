@@ -1,23 +1,15 @@
 import './Tabs.css';
 
-const Tabs = ({ activeTab, setActiveTab }) => {
-  const tabs = [
-    { id: 'AssetManagement', label: 'Asset Management' },
-    { id: 'ThreatIntelligence', label: 'Threat Intelligence' },
-    { id: 'VulnerabilityRiskAssessment', label: 'Vulnerability Risk Assessment' },
-    { id: 'IncidentResponse', label: 'Incident Response' },
-    { id: 'CrisisManagement', label: 'Crisis Management' },
-  ];
-
+const Tabs = ({ activeTab, setActiveTab, tabOptions, isSidebar }) => {
   return (
-    <div className="tabs">
-      {tabs.map(tab => (
+    <div className={`tabs ${isSidebar ? 'sidebar' : 'horizontal'}`}>
+      {tabOptions.map((tab, index) => (
         <button
-          key={tab.id}
-          className={`tab ${activeTab === tab.id ? 'active' : ''}`}
-          onClick={() => setActiveTab(tab.id)}
+          key={index}
+          className={`tab ${activeTab === tab ? 'active' : ''}`}
+          onClick={() => setActiveTab(tab)}
         >
-          {tab.label}
+          {tab}
         </button>
       ))}
     </div>

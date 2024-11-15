@@ -7,11 +7,18 @@ import VulnerabilityRiskAssessment from '../Modules/vulnerability-risk-assessmen
 import IncidentResponse from '../Modules/incident-response/IncidentResponseList';
 import CrisisManagement from '../Modules/crisis-management/CrisisManagementList';
 
-
 import './Home.css';
 
 const Home = () => {
   const [activeTab, setActiveTab] = useState('AssetManagement');
+
+  const tabs = [
+    'AssetManagement',
+    'ThreatIntelligence',
+    'VulnerabilityRiskAssessment',
+    'IncidentResponse',
+    'CrisisManagement',
+  ];
 
   const renderContent = () => {
     switch (activeTab) {
@@ -32,7 +39,7 @@ const Home = () => {
 
   return (
     <div className="home-container">
-      <Tabs activeTab={activeTab} setActiveTab={setActiveTab} />
+      <Tabs activeTab={activeTab} setActiveTab={setActiveTab} tabOptions={tabs} />
       <div className="content">
         {renderContent()}
       </div>
