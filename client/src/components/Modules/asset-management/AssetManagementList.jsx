@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+// import axios from 'axios';
 import AssetManagementDetails from './AssetManagementDetails';
 import AddAssets from './AddAssets';
 
@@ -18,13 +19,33 @@ const mockData = [
 ];
 
 const AssetManagementList = () => {
-  const [assets, setAssets] = useState(mockData);
-  const [selectedAsset, setSelectedAsset] = useState(null);
+  const [assets, setAssets] = useState([]);
+  const [selectedAssetId, setSelectedAssetId] = useState(null);
   const [showAssetPopup, setShowAssetPopup] = useState(false);
   const [showAddAssetPopup, setShowAddAssetPopup] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  const handleAssetClick = (asset) => {
-    setSelectedAsset(asset);
+  useEffect(() => {
+    fetchAssetsList();
+  }, []);
+
+  const fetchAssetsList = async () => {
+    try {
+      setLoading(true);
+      // const response = await axios.get('/api/assets');
+      const response = { data: mockData }; // Mocked empty response for now
+      setAssets(response.data);
+      setLoading(false);
+    } catch (err) {
+      console.error('Error fetching assets:', err);
+      setError('Failed to fetch assets.');
+      setLoading(false);
+    }
+  };
+
+  const handleAssetClick = (assetId) => {
+    setSelectedAssetId(assetId);
     setShowAssetPopup(true);
   };
 
@@ -32,15 +53,15 @@ const AssetManagementList = () => {
     setShowAddAssetPopup(true);
   };
 
-  const handleAddAssetSubmit = (newAsset) => {
-    setAssets([...assets, { ...newAsset, id: assets.length + 1 }]);
-    setShowAddAssetPopup(false);
-  };
+  if (loading) return <div>Loading assets...</div>;
+  if (error) return <div>{error}</div>;
 
   return (
     <div className="asset-management">
       <div className="asset-header">
-        <button className="add-asset-button" onClick={handleAddAssetClick}>Add Asset</button>
+        <button className="add-asset-button" onClick={handleAddAssetClick}>
+          Add Asset
+        </button>
       </div>
 
       <table className="asset-table">
@@ -58,7 +79,7 @@ const AssetManagementList = () => {
             <tr
               key={asset.id}
               className="asset-row"
-              onClick={() => handleAssetClick(asset)}
+              onClick={() => handleAssetClick(asset.id)}
             >
               <td>{asset.id}</td>
               <td>{asset.name}</td>
@@ -70,16 +91,16 @@ const AssetManagementList = () => {
         </tbody>
       </table>
 
-      <AssetManagementDetails 
-        showAssetPopup={showAssetPopup} 
-        selectedAsset={selectedAsset} 
-        setShowAssetPopup={setShowAssetPopup} 
+      <AssetManagementDetails
+        showAssetPopup={showAssetPopup}
+        assetId={selectedAssetId}
+        setShowAssetPopup={setShowAssetPopup}
       />
-      
-      <AddAssets 
-        showAddAssetPopup={showAddAssetPopup} 
-        setShowAddAssetPopup={setShowAddAssetPopup} 
-        onAddAssetSubmit={handleAddAssetSubmit} 
+
+<AddAssets
+        showAddAssetPopup={showAddAssetPopup}
+        setShowAddAssetPopup={setShowAddAssetPopup}
+        refreshAssetList={fetchAssetsList}
       />
     </div>
   );

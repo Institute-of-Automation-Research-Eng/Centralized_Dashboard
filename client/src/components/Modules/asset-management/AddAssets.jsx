@@ -1,16 +1,18 @@
 import { useState } from 'react';
+import axios from 'axios';
 import Popup from '../../utils/Popup';
 
+import './AddAssets.css';
+
 const AddAssets = ({ 
-    showAddAssetPopup,
-    setShowAddAssetPopup,
-    onAddAssetSubmit 
+  showAddAssetPopup, 
+  setShowAddAssetPopup, 
+  refreshAssetList 
 }) => {
   const [newAsset, setNewAsset] = useState({
     name: '',
     value: '',
-    criticality: '',
-    risk: ''
+    criticality: 'Low', // Default value.
   });
 
   const handleInputChange = (e) => {
@@ -18,10 +20,30 @@ const AddAssets = ({
     setNewAsset({ ...newAsset, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    onAddAssetSubmit(newAsset);
-    setNewAsset({ name: '', value: '', criticality: '', risk: '' });
+
+    try {
+      const response = await axios.post('/api/assets', {
+        name: newAsset.name,
+        value: newAsset.value,
+        criticality: newAsset.criticality,
+      });
+
+      alert('New Asset added successfully');
+
+      // Clear form fields
+      setNewAsset({ name: '', value: '', criticality: 'Medium' });
+
+      // Refresh the asset list
+      refreshAssetList();
+
+      // Close the popup
+      setShowAddAssetPopup(false);
+    } catch (err) {
+      console.error('Error adding asset:', err);
+      alert('Failed to add asset. Please try again.');
+    }
   };
 
   if (!showAddAssetPopup) return null;
@@ -46,26 +68,27 @@ const AddAssets = ({
           onChange={handleInputChange}
           required
         />
-        <input
-          type="number"
-          step="0.1"
+
+        <select
           name="criticality"
-          placeholder="Enter Criticality"
+          className='criticality-select'
           value={newAsset.criticality}
           onChange={handleInputChange}
           required
-        />
-        <input
-          type="number"
-          step="0.1"
-          name="risk"
-          placeholder="Enter Risk"
-          value={newAsset.risk}
-          onChange={handleInputChange}
-          required
-        />
-        <button type="submit">Add</button>
-        <button className="button-cancel" type="button" onClick={() => setShowAddAssetPopup(false)}>Cancel</button>
+        >
+          <option value="High">High</option>
+          <option value="Medium">Medium</option>
+          <option value="Low">Low</option>
+        </select>
+
+        <button type="submit" className='add-button'>Add</button>
+        <button
+          className="button-cancel"
+          type="button"
+          onClick={() => setShowAddAssetPopup(false)}
+        >
+          Cancel
+        </button>
       </form>
     </Popup>
   );
