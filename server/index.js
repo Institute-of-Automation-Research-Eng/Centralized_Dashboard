@@ -54,13 +54,13 @@ app.use(session({
 // Routes
 app.post("/signup", async (req, res) => {
     try {
-        const { name, email, password } = req.body;
+        const { name, email, password, userType } = req.body;
         const existingUser = await UserModel.findOne({ email });
         if (existingUser) {
             return res.status(400).json({ error: "Email already exists" });
         }
         const hashedPassword = await bcrypt.hash(password, 10);
-        const newUser = new UserModel({ name, email, password: hashedPassword });
+        const newUser = new UserModel({ name, email, password: hashedPassword, userType });
         const savedUser = await newUser.save();
         res.status(201).json(savedUser);
     } catch (error) {
@@ -102,13 +102,29 @@ app.post("/logout", (req, res) => {
     }
 });
 
-app.get('/user', (req, res) => {
+app.get('/user', async (req, res) => {
     if (req.session.user) {
-        res.json({ user: req.session.user });
+        try {
+            // Fetch the user from the database using the ID stored in the session
+            const user = await UserModel.findById(req.session.user.id);
+            if (user) {
+                // Send the user's name, email, and userType in the response
+                res.json({
+                    name: user.name,
+                    email: user.email,
+                    userType: user.userType // Include userType
+                });
+            } else {
+                res.status(404).json("User not found");
+            }
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
     } else {
         res.status(401).json("Not authenticated");
     }
 });
+
 
 app.post('/request-otp', async (req, res) => {
     const { email } = req.body;

@@ -6,11 +6,12 @@ const Navbar = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const userName = localStorage.getItem('userName');
+  const userType = localStorage.getItem('userType');
 
   const handleLogoutClick = () => { 
     axios.post("http://localhost:3001/logout", {}, { withCredentials: true })
       .then(() => {
-        localStorage.removeItem('userName'); // Removing the username from localStorage
+        localStorage.clear();
         alert("Logout successful")
         navigate('/'); // Redirect to login page after successful logout
       })
@@ -27,6 +28,7 @@ const Navbar = () => {
         <ul className="navbar-links">
           {allowedPaths.includes(location.pathname) && (
             <li>
+              {userType === "admin" && <span className="user-type">Admin</span>}
               <i className="fas fa-user profile-icon"></i>
               {userName && <span className="user-name">{userName}</span>} {/* Show user name */}
               <Link to="/" onClick={handleLogoutClick}>Logout</Link>

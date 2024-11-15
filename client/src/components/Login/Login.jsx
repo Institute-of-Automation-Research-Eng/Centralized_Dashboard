@@ -32,10 +32,11 @@ const Login = ({ onLogin }) => {
       axios.post("http://localhost:3001/login", { email, password }, { withCredentials: true })
         .then(result => {
           if (result.data === "Success") {
+            localStorage.setItem('userName', userName);
             axios.get('http://localhost:3001/user', { withCredentials: true })
               .then(response => {
-                if (response.data.user) {
-                  localStorage.setItem('userName', userName);
+                if (response.data) {
+                  localStorage.setItem('userType', response.data.userType); // Save userType to localStorage
                   navigate("/home");
                 }
               });

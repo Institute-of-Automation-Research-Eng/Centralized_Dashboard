@@ -8,6 +8,7 @@ const Signup = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [userType, setUserType] = useState('user'); // New state for user type
   const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState({ userName: '', email: '', password: '', confirmPassword: '', general: '' });
   const [loading, setLoading] = useState(false);
@@ -28,10 +29,11 @@ const Signup = () => {
 
     if (userName && email && password && password === confirmPassword) {
       setLoading(true);
-      axios.post("http://localhost:3001/signup", { userName, email, password })
+      axios.post("http://localhost:3001/signup", { userName, email, password, userType })
         .then(result => {
           if (result.status === 201) {
             localStorage.setItem('userName', userName);
+            localStorage.setItem('userType', userType);
             navigate("/home"); // Redirect to home page on successful signup
           }
         })
@@ -104,8 +106,21 @@ const Signup = () => {
           {errors.confirmPassword && <span className="error">{errors.confirmPassword}</span>}
         </div>
 
-         {/* Show Password Checkbox */}
-         <div className="show-password">
+        {/* User Type Select */}
+        <div className="form-group">
+          <select
+            value={userType}
+            onChange={(e) => setUserType(e.target.value)}
+            aria-label="User Type"
+          >
+            <option value="" disabled>Select role type</option> {/* Default option */}
+            <option value="user">User</option>
+            <option value="admin">Admin</option>
+          </select>
+        </div>
+
+        {/* Show Password Checkbox */}
+        <div className="show-password">
           <input
             type="checkbox"
             id="showPassword"
