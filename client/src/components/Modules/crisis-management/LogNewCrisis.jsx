@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import axios from 'axios';
-import './LogNewCrisis.css';
 
 const LogNewCrisis = ({ 
   showLogNewCrisisPopup, 

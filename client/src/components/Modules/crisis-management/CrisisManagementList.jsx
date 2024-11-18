@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import CrisisManagementDetails from './CrisisManagementDetails';
+import ResolveCrisisEvent from './ResolveCrisisEvent';
 import LogNewCrisis from './LogNewCrisis';
 
 import './CrisisManagementList.css';
@@ -21,7 +21,7 @@ const mockCrisisData = [
 
 const CrisisManagementList = () => {
   const [crisisEvents, setCrisisEvents] = useState([]);
-  const [selectedCrisisId, setSelectedCrisisId] = useState(null);
+  const [selectedCrisis, setSelectedCrisis] = useState(null);
   const [showCrisisPopup, setShowCrisisPopup] = useState(false);
   const [showLogNewCrisisPopup, setShowLogNewCrisisPopup] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -48,18 +48,12 @@ const CrisisManagementList = () => {
   };
 
   const handleCrisisClick = (crisis) => {
-    setSelectedCrisisId(crisis.id);
+    setSelectedCrisis(crisis);
     setShowCrisisPopup(true);
   };
 
   const handleLogNewCrisisClick = () => {
     setShowLogNewCrisisPopup(true);
-  };
-
-  const handleLogNewCrisisSubmit = (newCrisis) => {
-    // Add the new crisis event and close the popup
-    setCrisisEvents([...crisisEvents, { ...newCrisis, id: crisisEvents.length + 1 }]);
-    setShowLogNewCrisisPopup(false);
   };
 
   if (loading) return <div>Loading crisis events...</div>;
@@ -99,10 +93,11 @@ const CrisisManagementList = () => {
       </table>
 
       {/* Crisis Details Popup */}
-      <CrisisManagementDetails 
+      <ResolveCrisisEvent 
         showCrisisPopup={showCrisisPopup} 
-        selectedCrisisId={selectedCrisisId} 
+        selectedCrisis={selectedCrisis} 
         setShowCrisisPopup={setShowCrisisPopup} 
+        onResolveCrisisSubmit={fetchCrisisEvents}
       />
       
       {/* Log New Crisis Popup */}
