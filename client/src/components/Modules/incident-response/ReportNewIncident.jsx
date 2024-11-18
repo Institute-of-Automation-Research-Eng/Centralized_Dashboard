@@ -1,39 +1,65 @@
 import { useState } from 'react';
-import './ReportNewIncident.css';
+import axios from 'axios';
 
 const ReportNewIncident = ({ 
-    setShowAddIncidentPopup, 
-    setIncidents, 
-    incidents 
+  setShowAddIncidentPopup, 
+  setIncidents, 
+  refreshIncidentsList 
 }) => {
   const [newIncident, setNewIncident] = useState({
     description: '',
-    severity: '',
-    status: 'Open',
-    response_playbook: ''
+    severity: ''  // Removed status and response_playbook
   });
+
+  const [loading, setLoading] = useState(false);  // Loading state
+  const [error, setError] = useState(null);  // Error state
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setNewIncident({ ...newIncident, [name]: value });
   };
 
-  const handleAddIncidentSubmit = (e) => {
+  const handleAddIncidentSubmit = async (e) => {
     e.preventDefault();
-    setIncidents([...incidents, { ...newIncident, id: incidents.length + 1 }]);
-    setShowAddIncidentPopup(false);
-    setNewIncident({
-      description: '',
-      severity: '',
-      status: 'Open',
-      response_playbook: ''
-    });
+    setLoading(true);  // Set loading state when starting the API request
+    setError(null);  // Reset any previous errors
+
+    try {
+      // Sending the POST request to the backend to create a new incident
+      const response = await axios.post('/api/incidents', {
+        description: newIncident.description,
+        severity: newIncident.severity
+      });
+
+      alert('New Incident Reported successfully');
+
+      // Reset the form fields
+      setNewIncident({
+        description: '',
+        severity: ''  // Reset only description and severity
+      });
+
+      // Refresh the Incidents list
+      refreshIncidentsList();
+
+      // Close the popup and reset the form
+      setShowAddIncidentPopup(false);
+    } catch (err) {
+      console.error('Error reporting new incident:', err);
+      alert('Failed to report incident. Please try again.');
+    } finally {
+      setLoading(false);  // Reset loading state after API call
+    }
   };
 
   return (
     <div className="popup-overlay">
       <div className="popup">
         <h3>Report New Incident</h3>
+        
+        {/* Display error message if there is any */}
+        {error && <p className="error-message">{error}</p>}
+
         <form onSubmit={handleAddIncidentSubmit}>
           <input
             type="text"
@@ -51,16 +77,21 @@ const ReportNewIncident = ({
             onChange={handleInputChange}
             required
           />
-          <textarea
-            className='playbook-textarea'
-            name="response_playbook"
-            placeholder="Response Playbook"
-            value={newIncident.response_playbook}
-            onChange={handleInputChange}
-          />
-          <button type="submit">Submit</button>
-          <button className="button-cancel" type="button" onClick={() => setShowAddIncidentPopup(false)}>Cancel</button>
+          <button type="submit" disabled={loading}>Submit</button>
+
+          {/* Disable cancel button while loading */}
+          <button 
+            className="button-cancel" 
+            type="button" 
+            onClick={() => setShowAddIncidentPopup(false)}
+            disabled={loading}
+          >
+            Cancel
+          </button>
         </form>
+        
+        {/* Show loading spinner while the request is in progress */}
+        {loading && <div className="loading">Submitting...</div>}
       </div>
     </div>
   );
