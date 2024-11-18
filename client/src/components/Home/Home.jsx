@@ -10,7 +10,7 @@ import CrisisManagement from '../Modules/crisis-management/CrisisManagementList'
 import './Home.css';
 
 const Home = () => {
-  const [activeTab, setActiveTab] = useState('IncidentResponse');
+  const [activeTab, setActiveTab] = useState('AssetManagement');
 
   const tabs = [
     'AssetManagement',

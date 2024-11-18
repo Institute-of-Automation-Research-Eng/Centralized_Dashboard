@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import CrisisManagementDetails from './CrisisManagementDetails';
 import LogNewCrisis from './LogNewCrisis';
 
 import './CrisisManagementList.css';
+// import axios from 'axios';
 
 // Remove later
 const mockCrisisData = [
@@ -19,13 +20,35 @@ const mockCrisisData = [
   ];
 
 const CrisisManagementList = () => {
-  const [crisisEvents, setCrisisEvents] = useState(mockCrisisData);
-  const [selectedCrisis, setSelectedCrisis] = useState(null);
+  const [crisisEvents, setCrisisEvents] = useState([]);
+  const [selectedCrisisId, setSelectedCrisisId] = useState(null);
   const [showCrisisPopup, setShowCrisisPopup] = useState(false);
   const [showLogNewCrisisPopup, setShowLogNewCrisisPopup] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  // Fetch crisis events on component mount
+  useEffect(() => {
+    fetchCrisisEvents();
+  }, []);
+
+  // Fetch crisis events from the API
+  const fetchCrisisEvents = async () => {
+    try {
+      setLoading(true);
+      // const response = await axios.get('/api/crisis_events');
+      const response = { data: mockCrisisData }; // Mocked response for now
+      setCrisisEvents(response.data);
+      setLoading(false);
+    } catch (err) {
+      console.error('Error fetching crisis events:', err);
+      setError('Failed to fetch crisis events.');
+      setLoading(false);
+    }
+  };
 
   const handleCrisisClick = (crisis) => {
-    setSelectedCrisis(crisis);
+    setSelectedCrisisId(crisis.id);
     setShowCrisisPopup(true);
   };
 
@@ -34,14 +57,20 @@ const CrisisManagementList = () => {
   };
 
   const handleLogNewCrisisSubmit = (newCrisis) => {
+    // Add the new crisis event and close the popup
     setCrisisEvents([...crisisEvents, { ...newCrisis, id: crisisEvents.length + 1 }]);
     setShowLogNewCrisisPopup(false);
   };
 
+  if (loading) return <div>Loading crisis events...</div>;
+  if (error) return <div>{error}</div>;
+
   return (
     <div className="crisis-management">
       <div className="crisis-header">
-        <button className="add-crisis-button" onClick={handleLogNewCrisisClick}>Log New Crisis</button>
+        <button className="add-crisis-button" onClick={handleLogNewCrisisClick}>
+          Log New Crisis
+        </button>
       </div>
 
       <table className="crisis-table">
@@ -72,15 +101,15 @@ const CrisisManagementList = () => {
       {/* Crisis Details Popup */}
       <CrisisManagementDetails 
         showCrisisPopup={showCrisisPopup} 
-        selectedCrisis={selectedCrisis} 
+        selectedCrisisId={selectedCrisisId} 
         setShowCrisisPopup={setShowCrisisPopup} 
       />
       
-      {/* Add Crisis Popup */}
+      {/* Log New Crisis Popup */}
       <LogNewCrisis 
         showLogNewCrisisPopup={showLogNewCrisisPopup} 
         setShowLogNewCrisisPopup={setShowLogNewCrisisPopup} 
-        onLogNewCrisisSubmit={handleLogNewCrisisSubmit} 
+        onLogNewCrisisSubmit={fetchCrisisEvents} 
       />
     </div>
   );
