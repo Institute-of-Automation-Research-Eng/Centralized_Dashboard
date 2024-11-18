@@ -1,10 +1,11 @@
 import { useState } from 'react';
+import axios from 'axios';
 import Popup from '../../utils/Popup';
 
 const AddThreats = ({ 
   showAddThreatPopup, 
   setShowAddThreatPopup, 
-  onAddThreatSubmit 
+  refreshThreatsList 
 }) => {
   const [newThreat, setNewThreat] = useState({
     source: '',
@@ -18,10 +19,41 @@ const AddThreats = ({
     setNewThreat({ ...newThreat, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    onAddThreatSubmit(newThreat);
-    setNewThreat({ source: '', description: '', severity: '', classification: '' });
+
+    try {
+      // Send POST request to the API to add the new threat
+      const response = await axios.post('/api/threats', {
+        source: newThreat.source,
+        description: newThreat.description,
+        severity: newThreat.severity,
+      });
+
+      // Log the response (or handle the result)
+      console.log('New Threat added:', response.data);
+
+      // Show success alert
+      alert('New Threat added and classified successfully');
+
+      // Reset form fields
+      setNewThreat({
+        source: '',
+        description: '',
+        severity: '',
+        classification: ''
+      });
+
+      // Refresh the threat list in the parent component
+      refreshThreatsList();
+
+      // Close the popup
+      setShowAddThreatPopup(false);
+
+    } catch (err) {
+      console.error('Error adding threat:', err);
+      alert('Failed to add threat. Please try again.');
+    }
   };
 
   if (!showAddThreatPopup) return null;
@@ -63,7 +95,13 @@ const AddThreats = ({
           required
         />
         <button type="submit">Add</button>
-        <button className="button-cancel" type="button" onClick={() => setShowAddThreatPopup(false)}>Cancel</button>
+        <button
+          className="button-cancel"
+          type="button"
+          onClick={() => setShowAddThreatPopup(false)}
+        >
+          Cancel
+        </button>
       </form>
     </Popup>
   );

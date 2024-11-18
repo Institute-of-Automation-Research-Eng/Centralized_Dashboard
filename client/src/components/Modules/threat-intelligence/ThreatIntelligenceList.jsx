@@ -1,30 +1,51 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import ThreatIntelligenceDetails from './ThreatIntelligenceDetails';
 import AddThreat from './AddThreats';
 import './ThreatIntelligenceList.css';
 
-// Remove later
+// Mock Threat Data (to be removed later)
 const mockThreatData = [
-    { id: 1, source: 'Firewall', description: 'Attempted access to secure area', severity: 'high', classification: 'Intrusion' },
-    { id: 2, source: 'Endpoint', description: 'Suspicious activity detected', severity: 'medium', classification: 'Malware' },
-    { id: 3, source: 'Network', description: 'Unusual traffic volume', severity: 'low', classification: 'DDoS' },
-    { id: 4, source: 'Firewall', description: 'Multiple failed login attempts', severity: 'high', classification: 'Brute Force' },
-    { id: 5, source: 'Endpoint', description: 'Potential data exfiltration detected', severity: 'low', classification: 'Data Breach' },
-    { id: 6, source: 'Network', description: 'Port scanning activity', severity: 'medium', classification: 'Reconnaissance' },
-    { id: 7, source: 'Firewall', description: 'Suspicious inbound connection', severity: 'high', classification: 'Intrusion' },
-    { id: 8, source: 'Endpoint', description: 'New unapproved application installation', severity: 'medium', classification: 'Malware' },
-    { id: 9, source: 'Network', description: 'Denial of Service attack detected', severity: 'low', classification: 'DoS' },
-    { id: 10, source: 'Firewall', description: 'Possible SQL injection attempt', severity: 'medium', classification: 'Injection' },
-  ];
+  { id: 1, source: 'Firewall', description: 'Attempted access to secure area', severity: 'high', classification: 'Intrusion' },
+  { id: 2, source: 'Endpoint', description: 'Suspicious activity detected', severity: 'medium', classification: 'Malware' },
+  { id: 3, source: 'Network', description: 'Unusual traffic volume', severity: 'low', classification: 'DDoS' },
+  { id: 4, source: 'Firewall', description: 'Multiple failed login attempts', severity: 'high', classification: 'Brute Force' },
+  { id: 5, source: 'Endpoint', description: 'Potential data exfiltration detected', severity: 'low', classification: 'Data Breach' },
+  { id: 6, source: 'Network', description: 'Port scanning activity', severity: 'medium', classification: 'Reconnaissance' },
+  { id: 7, source: 'Firewall', description: 'Suspicious inbound connection', severity: 'high', classification: 'Intrusion' },
+  { id: 8, source: 'Endpoint', description: 'New unapproved application installation', severity: 'medium', classification: 'Malware' },
+  { id: 9, source: 'Network', description: 'Denial of Service attack detected', severity: 'low', classification: 'DoS' },
+  { id: 10, source: 'Firewall', description: 'Possible SQL injection attempt', severity: 'medium', classification: 'Injection' },
+];
 
 const ThreatIntelligenceList = () => {
-  const [threats, setThreats] = useState(mockThreatData);
-  const [selectedThreat, setSelectedThreat] = useState(null);
+  const [threats, setThreats] = useState([]);
+  const [selectedThreatId, setSelectedThreatId] = useState(null);
   const [showThreatPopup, setShowThreatPopup] = useState(false);
   const [showAddThreatPopup, setShowAddThreatPopup] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    fetchThreatsList();
+  }, []);
+
+  const fetchThreatsList = async () => {
+    try {
+      setLoading(true);
+      // Uncomment this line once the API is ready
+      // const response = await axios.get('/api/threats');
+      const response = { data: mockThreatData }; // Mocked response for now
+      setThreats(response.data);
+      setLoading(false);
+    } catch (err) {
+      console.error('Error fetching threats:', err);
+      setError('Failed to fetch threats.');
+      setLoading(false);
+    }
+  };
 
   const handleThreatClick = (threat) => {
-    setSelectedThreat(threat);
+    setSelectedThreatId(threat.id);
     setShowThreatPopup(true);
   };
 
@@ -32,10 +53,9 @@ const ThreatIntelligenceList = () => {
     setShowAddThreatPopup(true);
   };
 
-  const handleAddThreatSubmit = (newThreat) => {
-    setThreats([...threats, { ...newThreat, id: threats.length + 1 }]);
-    setShowAddThreatPopup(false);
-  };
+
+  if (loading) return <div>Loading threats...</div>;
+  if (error) return <div>{error}</div>;
 
   return (
     <div className="threat-intelligence">
@@ -65,7 +85,7 @@ const ThreatIntelligenceList = () => {
               <td>{threat.description}</td>
               <td>
                 <button className={`severity-button ${threat.severity}`}>
-                    {threat.severity.charAt(0).toUpperCase() + threat.severity.slice(1)}
+                  {threat.severity.charAt(0).toUpperCase() + threat.severity.slice(1)}
                 </button>
               </td>
               <td>{threat.classification}</td>
@@ -74,16 +94,18 @@ const ThreatIntelligenceList = () => {
         </tbody>
       </table>
 
-      <ThreatIntelligenceDetails 
-        showThreatPopup={showThreatPopup} 
-        selectedThreat={selectedThreat} 
-        setShowThreatPopup={setShowThreatPopup} 
+      {/* Passing props to ThreatIntelligenceDetails */}
+      <ThreatIntelligenceDetails
+        showThreatPopup={showThreatPopup}
+        threatId={selectedThreatId}
+        setShowThreatPopup={setShowThreatPopup}
       />
-      
-      <AddThreat 
-        showAddThreatPopup={showAddThreatPopup} 
-        setShowAddThreatPopup={setShowAddThreatPopup} 
-        onAddThreatSubmit={handleAddThreatSubmit} 
+
+      {/* Passing props to AddThreat */}
+      <AddThreat
+        showAddThreatPopup={showAddThreatPopup}
+        setShowAddThreatPopup={setShowAddThreatPopup}
+        refreshThreatsList={fetchThreatsList}
       />
     </div>
   );
