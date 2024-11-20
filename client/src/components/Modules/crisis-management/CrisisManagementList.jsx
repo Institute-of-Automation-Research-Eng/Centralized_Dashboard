@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
+// import { API_PATHS } from '../apiConfig';
+// import axios from 'axios';
 import ResolveCrisisEvent from './ResolveCrisisEvent';
 import LogNewCrisis from './LogNewCrisis';
 
 import './CrisisManagementList.css';
-// import axios from 'axios';
 
 // Remove later
 const mockCrisisData = [
@@ -36,7 +37,7 @@ const CrisisManagementList = () => {
   const fetchCrisisEvents = async () => {
     try {
       setLoading(true);
-      // const response = await axios.get('/api/crisis_events');
+      // const response = await axios.get(API_PATHS.CRISIS_LIST);
       const response = { data: mockCrisisData }; // Mocked response for now
       setCrisisEvents(response.data);
       setLoading(false);

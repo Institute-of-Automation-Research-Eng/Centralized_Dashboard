@@ -20,7 +20,7 @@ export const API_PATHS = {
   // Vulnerabilities
   VULNERABILITIES_LIST: `${BASE_URLS.VULNERABILITIES}`, // GET /api/vulnerabilities
   VULNERABILITY_DETAIL: (id) => `${BASE_URLS.VULNERABILITIES}/${id}`, // GET /api/vulnerabilities/<id>
-  SUBMIT_VULNERABILITY_SCAN: `${BASE_URLS.VULNERABILITIES}`, // POST /api/vulnerabilities
+  ADD_VULNERABILITY: `${BASE_URLS.VULNERABILITIES}`, // POST /api/vulnerabilities
 
   // Incident Response
   INCIDENTS_LIST: `${BASE_URLS.INCIDENTS}`,             // GET /api/incidents

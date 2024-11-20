@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { API_PATHS } from '../apiConfig';
 import axios from 'axios';
 import Popup from '../../utils/Popup';
 
@@ -19,7 +20,7 @@ const AssetDetails = ({
         setLoading(true);
         console.log(assetId);
         
-        const response = await axios.get(`/api/assets/${assetId}`);
+        const response = await axios.get(API_PATHS.ASSET_DETAIL(assetId)); 
         setAssetDetails(response.data);
         setLoading(false);
       } catch (err) {

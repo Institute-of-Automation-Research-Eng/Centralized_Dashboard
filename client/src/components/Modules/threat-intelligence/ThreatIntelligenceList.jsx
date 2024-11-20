@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react';
 import ThreatIntelligenceDetails from './ThreatIntelligenceDetails';
 import AddThreat from './AddThreats';
+// import { API_PATHS } from '../apiConfig';
+// import axios from 'axios';
+
 import './ThreatIntelligenceList.css';
 
 // Mock Threat Data (to be removed later)
@@ -33,7 +36,7 @@ const ThreatIntelligenceList = () => {
     try {
       setLoading(true);
       // Uncomment this line once the API is ready
-      // const response = await axios.get('/api/threats');
+      // const response = await axios.get(API_PATHS.THREATS_LIST);
       const response = { data: mockThreatData }; // Mocked response for now
       setThreats(response.data);
       setLoading(false);

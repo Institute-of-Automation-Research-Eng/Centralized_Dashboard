@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { API_PATHS } from '../apiConfig';
 import Popup from '../../utils/Popup';
 
 const ResolveCrisisEvent = ({ 
@@ -12,7 +13,7 @@ const ResolveCrisisEvent = ({
     if (!selectedCrisis || !selectedCrisis.id) return;
 
     try {
-      const response = await axios.post(`/api/crisis_events/${selectedCrisis.id}/resolve`);
+      const response = await axios.post(API_PATHS.RESOLVE_CRISIS(selectedCrisis.id));
       
       if (response.data && response.data.message) {
         alert(response.data.message); // Show success message

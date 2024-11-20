@@ -1,7 +1,8 @@
 import { useState } from 'react';
+import { API_PATHS } from '../apiConfig';
 import axios from 'axios';
-import Popup from '../../utils/Popup';
 
+import Popup from '../../utils/Popup';
 import './AddAssets.css';
 
 const AddAssets = ({ 
@@ -24,7 +25,7 @@ const AddAssets = ({
     e.preventDefault();
 
     try {
-      const response = await axios.post('/api/assets', {
+      const response = await axios.post(API_PATHS.ADD_ASSET, {
         name: newAsset.name,
         value: newAsset.value,
         criticality: newAsset.criticality,

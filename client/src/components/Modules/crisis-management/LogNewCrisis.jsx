@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import axios from 'axios';
+import { API_PATHS } from '../apiConfig';
+
 
 const LogNewCrisis = ({ 
   showLogNewCrisisPopup, 
@@ -25,7 +27,7 @@ const LogNewCrisis = ({
 
     try {
       // Make the POST request to log the new crisis
-      const response = await axios.post('/api/crisis_events', {
+      const response = await axios.post(API_PATHS.LOG_CRISIS, {
         description: newCrisis.description,
         impact: newCrisis.impact
       });

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import axios from 'axios';
+import { API_PATHS } from '../apiConfig';
 
 const ReportNewIncident = ({ 
   setShowAddIncidentPopup, 
@@ -26,9 +27,9 @@ const ReportNewIncident = ({
 
     try {
       // Sending the POST request to the backend to create a new incident
-      const response = await axios.post('/api/incidents', {
+      const response = await axios.post(API_PATHS.REPORT_INCIDENT, {
         description: newIncident.description,
-        severity: newIncident.severity
+        severity: newIncident.severity,
       });
 
       alert('New Incident Reported successfully');

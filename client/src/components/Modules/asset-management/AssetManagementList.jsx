@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react';
 // import axios from 'axios';
+// import { API_PATHS } from '../apiConfig';
 import AssetManagementDetails from './AssetManagementDetails';
 import AddAssets from './AddAssets';
 
 import './AssetManagementList.css';
+
 
 const mockData = [
   { id: 1, name: 'Web Server 1', value: 100000, criticality: 0.8, risk: 0.4 },
@@ -33,7 +35,7 @@ const AssetManagementList = () => {
   const fetchAssetsList = async () => {
     try {
       setLoading(true);
-      // const response = await axios.get('/api/assets');
+      // const response = await axios.get(API_PATHS.ASSETS_LIST);
       const response = { data: mockData }; // Mocked empty response for now
       setAssets(response.data);
       setLoading(false);

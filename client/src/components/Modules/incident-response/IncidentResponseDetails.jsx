@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';  // Assuming you use axios for fetching
+import axios from 'axios';  
+import { API_PATHS } from '../apiConfig';
 import Popup from '../../utils/Popup';
 
 const IncidentResponseDetails = ({ 
@@ -18,7 +19,7 @@ const IncidentResponseDetails = ({
       try {
         setLoading(true);
         // Replace this with the actual API call to fetch incident details
-        const response = await axios.get(`/api/incidents/${selectedIncidentId}`);
+        const response = await axios.get(API_PATHS.INCIDENT_DETAIL(selectedIncidentId));
         setIncidentDetails(response.data);
         setLoading(false);
       } catch (err) {

@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import { API_PATHS } from '../apiConfig';
 import Popup from '../../utils/Popup';
 
 const ThreatIntelligenceDetails = ({ 
@@ -18,7 +19,7 @@ const ThreatIntelligenceDetails = ({
       try {
         setLoading(true);
         // Fetch the threat details using the API
-        const response = await axios.get(`/api/threats/${threatId}`);
+        const response = await axios.get(API_PATHS.THREAT_DETAIL(threatId));
         setThreatDetails(response.data);
         setLoading(false);
       } catch (err) {

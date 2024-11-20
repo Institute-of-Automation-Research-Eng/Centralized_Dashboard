@@ -2,6 +2,9 @@ import { useState, useEffect } from 'react';
 import IncidentResponseDetails from './IncidentResponseDetails';
 import ReportNewIncident from './ReportNewIncident';
 
+// import axios from 'axios';
+// import { API_PATHS } from '../apiConfig';
+
 import './IncidentResponseList.css';
 
 // Mock data
@@ -35,7 +38,7 @@ const IncidentResponseList = () => {
     try {
       setLoading(true);
       // Replace this with actual API call like:
-      // const response = await axios.get('/api/incidents');
+      // const response = await axios.get(API_PATHS.INCIDENTS_LIST);
       const response = { data: mockData }; // Mocked data for now
       setIncidents(response.data);
       setLoading(false);

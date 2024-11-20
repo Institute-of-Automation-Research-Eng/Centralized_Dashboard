@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import axios from 'axios';
+import { API_PATHS } from '../apiConfig';
+
 import Popup from '../../utils/Popup';
 
 const AddThreats = ({ 
@@ -24,7 +26,7 @@ const AddThreats = ({
 
     try {
       // Send POST request to the API to add the new threat
-      const response = await axios.post('/api/threats', {
+      const response = await axios.post(API_PATHS.THREATS_LIST, {
         source: newThreat.source,
         description: newThreat.description,
         severity: newThreat.severity,
