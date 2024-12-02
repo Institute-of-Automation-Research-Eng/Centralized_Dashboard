@@ -89,12 +89,15 @@ const AssetManagementList = () => {
               <td>{new Date(asset.updated_at).toLocaleString()}</td>
               <td>
                 {/* Update button for each asset */}
-                <button onClick={(e) => {
+              <button 
+                onClick={(e) => {
                   e.stopPropagation(); // Prevent triggering row click handler
                   handleUpdateAssetClick(asset); // Open update form with this asset's data
-                }}>
-                  Update
-                </button>
+                }} 
+                className="update-button" // Applying the class here
+              >
+                Update
+              </button>
               </td>
             </tr>
           ))}

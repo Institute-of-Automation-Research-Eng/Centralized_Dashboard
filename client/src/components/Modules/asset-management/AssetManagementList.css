@@ -35,7 +35,6 @@
 .asset-table th, .asset-table td {
     border: 1px solid #ddd;
     padding: 12px;
-    text-align: left;
 }
 
 .asset-table th {
@@ -51,4 +50,20 @@
 
 .asset-row:hover {
     background-color: #f1f1f1;
+}
+
+.update-button {
+  background-color: #0056b3;
+  color: white;
+  border: none;
+  padding: 5px 8px;
+  cursor: pointer;
+  font-size: 14px;
+  border-radius: 3px;
+  margin-left: auto;
+  width: auto;
+}
+
+.update-button:hover {
+  background-color: #004094;
 }

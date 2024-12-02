@@ -1,6 +1,5 @@
 /* General Styles for the Add Assets Form */
 
-  
   input, select {
     width: 70%;
     padding: 10px;
@@ -22,6 +21,7 @@
     appearance: none;
     background-color: #fff;
     cursor: pointer;
+    margin-top: 10px;
   }
   
   /* For Modern Browsers */
