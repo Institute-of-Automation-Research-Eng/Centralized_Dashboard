@@ -1,11 +1,10 @@
 export const BASE_URLS = {
-  ASSETS: '/api/assets',
+  ASSETS: 'https://asset-management-isa.onrender.com/assets',
   THREATS: '/api/threats',
   VULNERABILITIES: '/api/vulnerabilities',
   INCIDENTS: '/api/incidents',
   CRISIS_EVENTS: '/api/crisis_events',
 };
-
 
 export const API_PATHS = {
   // Assets

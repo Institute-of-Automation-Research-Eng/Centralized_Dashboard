@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import Tabs from '../Tabs/Tabs';
 import AssetManagement from '../Modules/asset-management/AssetManagementList';
-import ThreatIntelligence from '../Modules/threat-intelligence/ThreatIntelligence';
+import ThreatIntelligence from '../Modules/threat-intelligence/ThreatIntelligenceList';
 import VulnerabilityRiskAssessment from '../Modules/vulnerability-risk-assessment/VulnerabilityRiskAssessmentList';
 import IncidentResponse from '../Modules/incident-response/IncidentResponseList';
 import CrisisManagement from '../Modules/crisis-management/CrisisManagementList';

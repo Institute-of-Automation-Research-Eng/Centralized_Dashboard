@@ -1,28 +1,15 @@
 import { useState, useEffect } from 'react';
-// import axios from 'axios';
-// import { API_PATHS } from '../apiConfig';
+import axios from 'axios';
+import { API_PATHS } from '/Users/sainithin/Desktop/Centralized_Dashboard/client/src/components/apiConfig.js';
 import AssetManagementDetails from './AssetManagementDetails';
 import AddAssets from './AddAssets';
 
 import './AssetManagementList.css';
 
-
-const mockData = [
-  { id: 1, name: 'Web Server 1', value: 100000, criticality: 0.8, risk: 0.4 },
-  { id: 2, name: 'Database Server', value: 150000, criticality: 0.9, risk: 0.6 },
-  { id: 3, name: 'Application Server', value: 200000, criticality: 0.7, risk: 0.3 },
-  { id: 4, name: 'Backup Server', value: 120000, criticality: 0.5, risk: 0.2 },
-  { id: 5, name: 'Mail Server', value: 80000, criticality: 0.6, risk: 0.5 },
-  { id: 6, name: 'FTP Server', value: 90000, criticality: 0.7, risk: 0.4 },
-  { id: 7, name: 'DNS Server', value: 110000, criticality: 0.8, risk: 0.7 },
-  { id: 8, name: 'Proxy Server', value: 95000, criticality: 0.6, risk: 0.3 },
-  { id: 9, name: 'Load Balancer', value: 130000, criticality: 0.9, risk: 0.6 },
-  { id: 10, name: 'App Server 2', value: 140000, criticality: 0.7, risk: 0.5 },
-];
-
 const AssetManagementList = () => {
   const [assets, setAssets] = useState([]);
   const [selectedAssetId, setSelectedAssetId] = useState(null);
+  const [selectedAsset, setSelectedAsset] = useState(null); // For storing the selected asset for update
   const [showAssetPopup, setShowAssetPopup] = useState(false);
   const [showAddAssetPopup, setShowAddAssetPopup] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -35,8 +22,7 @@ const AssetManagementList = () => {
   const fetchAssetsList = async () => {
     try {
       setLoading(true);
-      // const response = await axios.get(API_PATHS.ASSETS_LIST);
-      const response = { data: mockData }; // Mocked empty response for now
+      const response = await axios.get(API_PATHS.ASSETS_LIST);
       setAssets(response.data);
       setLoading(false);
     } catch (err) {
@@ -52,7 +38,13 @@ const AssetManagementList = () => {
   };
 
   const handleAddAssetClick = () => {
+    setSelectedAsset(null); // Make sure the form is reset for adding new asset
     setShowAddAssetPopup(true);
+  };
+
+  const handleUpdateAssetClick = (asset) => {
+    setSelectedAsset(asset); // Pass the asset data for updating
+    setShowAddAssetPopup(true); // Open the popup to edit
   };
 
   if (loading) return <div>Loading assets...</div>;
@@ -71,9 +63,13 @@ const AssetManagementList = () => {
           <tr>
             <th>ID</th>
             <th>Name</th>
-            <th>Value</th>
-            <th>Criticality</th>
-            <th>Risk</th>
+            <th>Category</th>
+            <th>Owner</th>
+            <th>Status</th>
+            <th>Risk Score</th>
+            <th>Created At</th>
+            <th>Updated At</th>
+            <th>Actions</th> {/* Added an Actions column */}
           </tr>
         </thead>
         <tbody>
@@ -81,13 +77,25 @@ const AssetManagementList = () => {
             <tr
               key={asset.id}
               className="asset-row"
-              onClick={() => handleAssetClick(asset.id)}
+              onClick={() => handleAssetClick(asset.id)} // This triggers handleAssetClick for row click
             >
               <td>{asset.id}</td>
               <td>{asset.name}</td>
-              <td>{asset.value}</td>
-              <td>{asset.criticality}</td>
-              <td>{asset.risk}</td>
+              <td>{asset.category}</td>
+              <td>{asset.owner}</td>
+              <td>{asset.status}</td>
+              <td>{asset.risk_score}</td>
+              <td>{new Date(asset.created_at).toLocaleString()}</td>
+              <td>{new Date(asset.updated_at).toLocaleString()}</td>
+              <td>
+                {/* Update button for each asset */}
+                <button onClick={(e) => {
+                  e.stopPropagation(); // Prevent triggering row click handler
+                  handleUpdateAssetClick(asset); // Open update form with this asset's data
+                }}>
+                  Update
+                </button>
+              </td>
             </tr>
           ))}
         </tbody>
@@ -99,10 +107,11 @@ const AssetManagementList = () => {
         setShowAssetPopup={setShowAssetPopup}
       />
 
-<AddAssets
+      <AddAssets
         showAddAssetPopup={showAddAssetPopup}
         setShowAddAssetPopup={setShowAddAssetPopup}
         refreshAssetList={fetchAssetsList}
+        assetToEdit={selectedAsset} // Pass the selected asset to edit
       />
     </div>
   );
