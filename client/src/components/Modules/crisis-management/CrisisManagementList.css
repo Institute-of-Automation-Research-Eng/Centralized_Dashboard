@@ -36,7 +36,7 @@
   .crisis-table td {
     border: 1px solid #ddd;
     padding: 12px;
-    text-align: left;
+
   }
   
   .crisis-table th {
@@ -62,3 +62,18 @@
     justify-content: space-between;
   }
   
+  .log-button {
+    background-color: #0056b3;
+    color: white;
+    border: none;
+    padding: 6px 15px;
+    cursor: pointer;
+    font-size: 14px;
+    border-radius: 3px;
+    margin-left: auto;
+    width: auto;
+  }
+  
+  .log-button:hover {
+    background-color: #004094;
+  }

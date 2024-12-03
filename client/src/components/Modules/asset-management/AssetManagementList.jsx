@@ -96,7 +96,7 @@ const AssetManagementList = () => {
                 }} 
                 className="update-button" // Applying the class here
               >
-                Update
+                Edit
               </button>
               </td>
             </tr>

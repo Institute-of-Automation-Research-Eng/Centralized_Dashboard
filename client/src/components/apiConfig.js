@@ -3,7 +3,7 @@ export const BASE_URLS = {
   THREATS: '/api/threats',
   VULNERABILITIES: '/api/vulnerabilities',
   INCIDENTS: '/api/incidents',
-  CRISIS_EVENTS: '/api/crisis_events',
+  CRISIS_EVENTS: 'http://3.142.195.222:5000/crisis-events',
 };
 
 export const API_PATHS = {
@@ -28,6 +28,7 @@ export const API_PATHS = {
 
   // Crisis
   CRISIS_LIST: `${BASE_URLS.CRISIS_EVENTS}`,            // GET /api/crisis_events
+  CRISIS_DETAIL: (id) => `${BASE_URLS.CRISIS_EVENTS}/${id}`,   // GET /api/crisis_events/<id>
   LOG_CRISIS: `${BASE_URLS.CRISIS_EVENTS}`,             // POST /api/crisis_events
   RESOLVE_CRISIS: (id) => `${BASE_URLS.CRISIS_EVENTS}/${id}/resolve`, // POST /api/crisis_events/<id>/resolve
 };

@@ -1,30 +1,17 @@
 import { useState, useEffect } from 'react';
-// import { API_PATHS } from '../apiConfig';
-// import axios from 'axios';
-import ResolveCrisisEvent from './ResolveCrisisEvent';
-import LogNewCrisis from './LogNewCrisis';
+import { API_PATHS } from '/Users/sainithin/Desktop/Centralized_Dashboard/client/src/components/apiConfig.js';
+import axios from 'axios';
+// import ResolveCrisisEvent from './ResolveCrisisEvent';
+import NewCrisis from './NewCrisis';
+import CrisisManagementDetails from './CrisisManagementDetails'; // Import CrisisDetails Component
 
 import './CrisisManagementList.css';
 
-// Remove later
-const mockCrisisData = [
-    { id: 1, description: 'Cyber Attack', impact: 'High', status: 'Ongoing' },
-    { id: 2, description: 'Flood in Data Center', impact: 'Medium', status: 'Ongoing' },
-    { id: 3, description: 'Power Outage', impact: 'High', status: 'Resolved' },
-    { id: 4, description: 'Fire in Server Room', impact: 'Critical', status: 'Ongoing' },
-    { id: 5, description: 'Network Failure', impact: 'High', status: 'Open' },
-    { id: 6, description: 'Hardware Malfunction', impact: 'Medium', status: 'Resolved' },
-    { id: 7, description: 'Ransomware Attack', impact: 'Critical', status: 'Ongoing' },
-    { id: 8, description: 'Data Leak', impact: 'High', status: 'Resolved' },
-    { id: 9, description: 'Social Engineering Attack', impact: 'Low', status: 'Ongoing' },
-    { id: 10, description: 'Denial of Service Attack', impact: 'High', status: 'Open' }
-  ];
-
 const CrisisManagementList = () => {
   const [crisisEvents, setCrisisEvents] = useState([]);
-  const [selectedCrisis, setSelectedCrisis] = useState(null);
+  const [selectedEventId, setSelectedEventId] = useState(null);
   const [showCrisisPopup, setShowCrisisPopup] = useState(false);
-  const [showLogNewCrisisPopup, setShowLogNewCrisisPopup] = useState(false);
+  const [showNewCrisisPopup, setShowNewCrisisPopup] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -37,9 +24,11 @@ const CrisisManagementList = () => {
   const fetchCrisisEvents = async () => {
     try {
       setLoading(true);
-      // const response = await axios.get(API_PATHS.CRISIS_LIST);
-      const response = { data: mockCrisisData }; // Mocked response for now
-      setCrisisEvents(response.data);
+      const response = await axios.get(API_PATHS.CRISIS_LIST);
+      
+      const sortedCrisisEvents = response.data.sort((a, b) => a.event_id - b.event_id);
+      
+      setCrisisEvents(sortedCrisisEvents);
       setLoading(false);
     } catch (err) {
       console.error('Error fetching crisis events:', err);
@@ -48,14 +37,19 @@ const CrisisManagementList = () => {
     }
   };
 
-  const handleCrisisClick = (crisis) => {
-    setSelectedCrisis(crisis);
+  const handleCrisisClick = (eventId) => {
+    setSelectedEventId(eventId);
     setShowCrisisPopup(true);
   };
 
-  const handleLogNewCrisisClick = () => {
-    setShowLogNewCrisisPopup(true);
+  const handleNewCrisisClick = () => {
+    setShowNewCrisisPopup(true);
   };
+
+  const handleLogCrisis = (eventId) => {
+    console.log(eventId);
+    
+  }
 
   if (loading) return <div>Loading crisis events...</div>;
   if (error) return <div>{error}</div>;
@@ -63,8 +57,8 @@ const CrisisManagementList = () => {
   return (
     <div className="crisis-management">
       <div className="crisis-header">
-        <button className="add-crisis-button" onClick={handleLogNewCrisisClick}>
-          Log New Crisis
+        <button className="add-crisis-button" onClick={handleNewCrisisClick}>
+          New Crisis
         </button>
       </div>
 
@@ -72,40 +66,51 @@ const CrisisManagementList = () => {
         <thead>
           <tr>
             <th>ID</th>
+            <th>Title</th>
             <th>Description</th>
-            <th>Impact</th>
-            <th>Status</th>
+            <th>Timestamp</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
           {crisisEvents.map((crisis) => (
             <tr
-              key={crisis.id}
+              key={crisis.event_id} // Use event_id as the key
               className="crisis-row"
-              onClick={() => handleCrisisClick(crisis)}
+              onClick={() => handleCrisisClick(crisis.event_id)} 
             >
-              <td>{crisis.id}</td>
+              <td>{crisis.event_id}</td>
+              <td>{crisis.title}</td>
               <td>{crisis.description}</td>
-              <td>{crisis.impact}</td>
-              <td>{crisis.status}</td>
+              <td>{new Date(crisis.timestamp).toLocaleString()}</td>
+              <td>
+                <button 
+                  onClick={(e) => {
+                    e.stopPropagation(); // Prevent triggering row click handler
+                    handleLogCrisis(crisis.event_id); 
+                  }} 
+                  className="log-button" // Applying the class here
+                >
+                  Log
+                </button>
+              </td>
             </tr>
           ))}
         </tbody>
       </table>
 
       {/* Crisis Details Popup */}
-      <ResolveCrisisEvent 
+      <CrisisManagementDetails 
         showCrisisPopup={showCrisisPopup} 
-        selectedCrisis={selectedCrisis} 
+        eventId={selectedEventId} 
         setShowCrisisPopup={setShowCrisisPopup} 
-        onResolveCrisisSubmit={fetchCrisisEvents}
       />
       
       {/* Log New Crisis Popup */}
-      <LogNewCrisis 
-        showLogNewCrisisPopup={showLogNewCrisisPopup} 
-        setShowLogNewCrisisPopup={setShowLogNewCrisisPopup} 
-        onLogNewCrisisSubmit={fetchCrisisEvents} 
+      <NewCrisis 
+        showNewCrisisPopup={showNewCrisisPopup} 
+        setShowNewCrisisPopup={setShowNewCrisisPopup} 
+        onNewCrisisSubmit={fetchCrisisEvents} 
       />
     </div>
   );
