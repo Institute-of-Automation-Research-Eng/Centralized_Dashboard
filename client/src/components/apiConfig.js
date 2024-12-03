@@ -1,5 +1,6 @@
 export const BASE_URLS = {
   ASSETS: 'https://asset-management-isa.onrender.com/assets',
+  PREDICT_ASSETS: 'https://asset-management-isa.onrender.com/predict',
   THREATS: '/api/threats',
   VULNERABILITIES: '/api/vulnerabilities',
   INCIDENTS: '/api/incidents',
@@ -11,6 +12,8 @@ export const API_PATHS = {
   ASSETS_LIST: `${BASE_URLS.ASSETS}`,                  // GET /api/assets
   ASSET_DETAIL: (id) => `${BASE_URLS.ASSETS}/${id}`,   // GET /api/assets/<id>
   ADD_ASSET: `${BASE_URLS.ASSETS}`,                    // POST /api/assets
+  PREDICT_ASSET: (id) => `${BASE_URLS.PREDICT_ASSETS}/${id}`,                // POST /api/predict/id
+  RISK_HISTORY:  (id) => `${BASE_URLS.ASSETS}/${id}/risk_history`,
 
   // Threats
   THREATS_LIST: `${BASE_URLS.THREATS}`,                // GET /api/threats
@@ -29,6 +32,5 @@ export const API_PATHS = {
   // Crisis
   CRISIS_LIST: `${BASE_URLS.CRISIS_EVENTS}`,            // GET /api/crisis_events
   CRISIS_DETAIL: (id) => `${BASE_URLS.CRISIS_EVENTS}/${id}`,   // GET /api/crisis_events/<id>
-  LOG_CRISIS: `${BASE_URLS.CRISIS_EVENTS}`,             // POST /api/crisis_events
-  RESOLVE_CRISIS: (id) => `${BASE_URLS.CRISIS_EVENTS}/${id}/resolve`, // POST /api/crisis_events/<id>/resolve
+  LOG_CRISIS: (id) => `${BASE_URLS.CRISIS_EVENTS}/${id}/logs`,             // POST /api/crisis_events
 };

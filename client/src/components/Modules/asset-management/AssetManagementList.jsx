@@ -3,6 +3,7 @@ import axios from 'axios';
 import { API_PATHS } from '/Users/sainithin/Desktop/Centralized_Dashboard/client/src/components/apiConfig.js';
 import AssetManagementDetails from './AssetManagementDetails';
 import AddAssets from './AddAssets';
+import AssetRiskHistory from './AssetRiskHistory'; // Import the new component for Risk History
 
 import './AssetManagementList.css';
 
@@ -12,6 +13,8 @@ const AssetManagementList = () => {
   const [selectedAsset, setSelectedAsset] = useState(null); // For storing the selected asset for update
   const [showAssetPopup, setShowAssetPopup] = useState(false);
   const [showAddAssetPopup, setShowAddAssetPopup] = useState(false);
+  const [showRiskHistoryPopup, setShowRiskHistoryPopup] = useState(false); // For Risk History Popup
+  const [selectedRiskAssetId, setSelectedRiskAssetId] = useState(null); // To store the asset for which we show risk history
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -47,6 +50,16 @@ const AssetManagementList = () => {
     setShowAddAssetPopup(true); // Open the popup to edit
   };
 
+  const handlePredictAsset = (assetId) => {
+    console.log(assetId);
+  };
+
+  // Function to handle showing risk history
+  const handleShowRiskHistory = (assetId) => {
+    setSelectedRiskAssetId(assetId); // Set the assetId to fetch risk history
+    setShowRiskHistoryPopup(true); // Show the Risk History Popup
+  };
+
   if (loading) return <div>Loading assets...</div>;
   if (error) return <div>{error}</div>;
 
@@ -69,7 +82,7 @@ const AssetManagementList = () => {
             <th>Risk Score</th>
             <th>Created At</th>
             <th>Updated At</th>
-            <th>Actions</th> {/* Added an Actions column */}
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -89,32 +102,65 @@ const AssetManagementList = () => {
               <td>{new Date(asset.updated_at).toLocaleString()}</td>
               <td>
                 {/* Update button for each asset */}
-              <button 
-                onClick={(e) => {
-                  e.stopPropagation(); // Prevent triggering row click handler
-                  handleUpdateAssetClick(asset); // Open update form with this asset's data
-                }} 
-                className="update-button" // Applying the class here
-              >
-                Edit
-              </button>
+                <button 
+                  onClick={(e) => {
+                    e.stopPropagation(); // Prevent triggering row click handler
+                    handleUpdateAssetClick(asset); // Open update form with this asset's data
+                  }} 
+                  className="action-button" // Applying the class here
+                >
+                  Edit
+                </button>
+
+                &nbsp;
+                {/* Predict Threat */}
+                <button 
+                  onClick={(e) => {
+                    e.stopPropagation(); // Prevent triggering row click handler
+                    handlePredictAsset(asset.id); // Open update form with this asset's data
+                  }} 
+                  className="action-button" // Applying the class here
+                >
+                  Predict
+                </button>
+
+                &nbsp;
+                {/* Risk History */}
+                <button 
+                  onClick={(e) => {
+                    e.stopPropagation(); // Prevent triggering row click handler
+                    handleShowRiskHistory(asset.id); // Open the Risk History popup
+                  }} 
+                  className="action-button"
+                >
+                  Risk History
+                </button>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
 
+      {/* Asset Details Popup */}
       <AssetManagementDetails
         showAssetPopup={showAssetPopup}
         assetId={selectedAssetId}
         setShowAssetPopup={setShowAssetPopup}
       />
 
+      {/* Add or Edit Asset Popup */}
       <AddAssets
         showAddAssetPopup={showAddAssetPopup}
         setShowAddAssetPopup={setShowAddAssetPopup}
         refreshAssetList={fetchAssetsList}
         assetToEdit={selectedAsset} // Pass the selected asset to edit
+      />
+
+      {/* Risk History Popup */}
+      <AssetRiskHistory
+        showRiskHistoryPopup={showRiskHistoryPopup}
+        assetId={selectedRiskAssetId} // Pass selected assetId for fetching risk history
+        setShowRiskHistoryPopup={setShowRiskHistoryPopup}
       />
     </div>
   );
