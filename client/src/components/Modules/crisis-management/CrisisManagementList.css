@@ -62,7 +62,7 @@
     justify-content: space-between;
   }
   
-  .log-button {
+  .action-button {
     background-color: #0056b3;
     color: white;
     border: none;
@@ -74,6 +74,6 @@
     width: auto;
   }
   
-  .log-button:hover {
+  .action-button:hover {
     background-color: #004094;
   }

@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { API_PATHS } from '/Users/sainithin/Desktop/Centralized_Dashboard/client/src/components/apiConfig.js';
 import axios from 'axios';
-// import ResolveCrisisEvent from './ResolveCrisisEvent';
 import NewCrisis from './NewCrisis';
 import CrisisManagementDetails from './CrisisManagementDetails'; // Import CrisisDetails Component
 
@@ -46,10 +45,63 @@ const CrisisManagementList = () => {
     setShowNewCrisisPopup(true);
   };
 
-  const handleLogCrisis = (eventId) => {
-    console.log(eventId);
-    
-  }
+  const handleCommuncation = async (eventTitle) => {
+    try {
+      const response = await axios.post(API_PATHS.CRISIS_COMMUNICATION(eventTitle));
+  
+      const { communication_id, message } = response.data;
+  
+      alert(`Event ${communication_id} - ${message}`);
+    } catch (error) {
+      console.error('Error generating communication strategy:', error);
+      alert('Failed to generate communication strategy. Please try again.');
+    }
+  };
+
+  const handleResolve = async (eventId) => {
+    try {
+      const response = await axios.put(API_PATHS.RESOLVE_CRISIS(eventId));
+  
+      const { id } = response.data.crisis_event;
+      const { message } = response.data;
+  
+      alert(`Event ${id} - ${message}`);
+  
+      fetchCrisisEvents();
+    } catch (error) {
+      console.error('Error resolving crisis event:', error);
+      alert('Failed to resolve crisis event. Please try again.');
+    }
+  };
+  
+
+  const handleGenerateReport = async (eventTitle) => {
+    try {
+      const response = await axios.get(API_PATHS.GENERATE_CRISIS_REPORT(eventTitle));
+  
+      const { event_name, report_details } = response.data;
+  
+      const blob = new Blob([report_details], { type: 'text/plain' });
+  
+      const blobUrl = URL.createObjectURL(blob);
+  
+      const link = document.createElement('a');
+      link.href = blobUrl;
+      link.download = `${event_name}.txt`;
+  
+      document.body.appendChild(link);
+      link.click();
+  
+
+      document.body.removeChild(link);
+      URL.revokeObjectURL(blobUrl);
+  
+      alert('Report downloaded successfully!');
+    } catch (error) {
+      console.error('Error generating report:', error);
+      alert('Failed to generate report. Please try again.');
+    }
+  };    
 
   if (loading) return <div>Loading crisis events...</div>;
   if (error) return <div>{error}</div>;
@@ -86,12 +138,36 @@ const CrisisManagementList = () => {
               <td>
                 <button 
                   onClick={(e) => {
-                    e.stopPropagation(); // Prevent triggering row click handler
-                    handleLogCrisis(crisis.event_id); 
+                    e.stopPropagation(); 
+                    handleResolve(crisis.event_id); 
                   }} 
-                  className="log-button" // Applying the class here
+                  className="action-button" 
                 >
-                  Log
+                  Resolve
+                </button>
+
+                &nbsp;
+                {/* Risk History */}
+                <button 
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleCommuncation(crisis.title);
+                  }} 
+                  className="action-button"
+                >
+                  Communicate
+                </button>
+
+                &nbsp;
+                {/* Risk History */}
+                <button 
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleGenerateReport(crisis.title);
+                  }} 
+                  className="action-button"
+                >
+                  Generate Report
                 </button>
               </td>
             </tr>

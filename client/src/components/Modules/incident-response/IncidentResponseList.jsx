@@ -50,7 +50,8 @@ const IncidentResponseList = () => {
   };
 
   const handleIncidentClick = (incident) => {
-    setSelectedIncidentId(incident.id);
+    // setSelectedIncidentId(incident.id);
+    setSelectedIncidentId(incident);
     setShowIncidentPopup(true);
   };
 

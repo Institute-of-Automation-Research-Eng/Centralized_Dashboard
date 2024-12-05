@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';  
-import { API_PATHS } from '../apiConfig';
+// import { API_PATHS } from '../apiConfig';
 import Popup from '../../utils/Popup';
 
 const IncidentResponseDetails = ({ 
@@ -19,8 +19,9 @@ const IncidentResponseDetails = ({
       try {
         setLoading(true);
         // Replace this with the actual API call to fetch incident details
-        const response = await axios.get(API_PATHS.INCIDENT_DETAIL(selectedIncidentId));
-        setIncidentDetails(response.data);
+        // const response = await axios.get(API_PATHS.INCIDENT_DETAIL(selectedIncidentId));
+        // setIncidentDetails(response.data);
+        setIncidentDetails(selectedIncidentId);
         setLoading(false);
       } catch (err) {
         console.error('Error fetching incident details:', err);
@@ -50,7 +51,6 @@ const IncidentResponseDetails = ({
           <p><strong>Description:</strong> {incidentDetails.description}</p>
           <p><strong>Severity:</strong> {incidentDetails.severity}</p>
           <p><strong>Status:</strong> {incidentDetails.status}</p>
-          <p><strong>Response Playbook:</strong> {incidentDetails.response_playbook || 'N/A'}</p>
         </div>
         <button onClick={() => setShowIncidentPopup(false)}>Close</button>
       </>

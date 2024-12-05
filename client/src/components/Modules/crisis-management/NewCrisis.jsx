@@ -39,12 +39,7 @@ const NewCrisis = ({
         reported_by: newCrisis.reported_by
       });
 
-      console.log(response);
-      debugger
-      
-
-      // If the backend responds with the newly created crisis or a success message
-      alert('New Crisis logged successfully');
+      alert(response.data.message);
       
       // Reset the form
       setNewCrisis({
@@ -122,9 +117,9 @@ const NewCrisis = ({
           
           {/* Reported By input */}
           <input
-            type="text"
+            type="number"
             name="reported_by"
-            placeholder="Enter Name of Reporter"
+            placeholder="Enter Reporter"
             value={newCrisis.reported_by}
             onChange={handleInputChange}
             required

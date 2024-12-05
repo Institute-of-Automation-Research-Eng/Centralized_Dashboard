@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import axios from 'axios';
-import { API_PATHS } from '../apiConfig';
+// import { API_PATHS } from '../apiConfig';
 
 import Popup from '../../utils/Popup';
 

@@ -48,7 +48,7 @@ const ThreatIntelligenceList = () => {
   };
 
   const handleThreatClick = (threat) => {
-    setSelectedThreatId(threat.id);
+    setSelectedThreatId(threat);
     setShowThreatPopup(true);
   };
 
