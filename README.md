@@ -1,7 +1,4 @@
 # Centralized Dashboard
-**Repository:** [Centralized Dashboard](https://github.com/Institute-of-Automation-Research-Eng/Centralized_Dashboard)
-
----
 
 A modular, full-stack web application for managing assets, monitoring threats, assessing vulnerabilities, and coordinating crisis responses—all from a single, centralized interface. Built with a React/Vite frontend and an Express/MongoDB backend, it enforces secure authentication flows and cleanly separates domain concerns for scalability and maintainability.
 
